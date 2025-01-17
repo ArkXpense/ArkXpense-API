@@ -3,7 +3,7 @@ import { optimizeTransactions } from '../controllers/transactionController';
 
 const router = Router();
 
-// Endpoint para optimizar transacciones
+// Endpoint  for the transactions algorithm
 router.post('/optimize', optimizeTransactions);
 
 export default router;

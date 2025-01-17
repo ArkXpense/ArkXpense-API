@@ -1,11 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, Column, ManyToOne } from 'typeorm';
+import { BaseEntity } from './BaseEntity';
 import { Group } from './Group';
 
 @Entity('expenses')
-export class Expense {
-  @PrimaryGeneratedColumn()
-  id!: number;
-
+export class Expense extends BaseEntity {
   @Column('float')
   amount!: number;
 

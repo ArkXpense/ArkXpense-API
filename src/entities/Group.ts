@@ -1,12 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, OneToMany, JoinTable } from 'typeorm';
+import { Entity, Column, ManyToMany, OneToMany, JoinTable } from 'typeorm';
+import { BaseEntity } from './BaseEntity'; 
 import { User } from './User';
 import { Expense } from './Expense';
 
 @Entity('groups')
-export class Group {
-  @PrimaryGeneratedColumn()
-  id!: number;
-
+export class Group extends BaseEntity {
   @Column()
   name!: string;
 
