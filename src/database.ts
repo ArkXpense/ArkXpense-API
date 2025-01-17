@@ -6,7 +6,6 @@ import { Expense } from './entities/Expense';
 import dotenv from "dotenv"
 
 dotenv.config()
-
 console.log('process.env.DATABASE_URL', process.env.DATABASE_URL);
 
 export const AppDataSource = new DataSource({
