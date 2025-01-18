@@ -9,6 +9,7 @@ router.post('/login', async (req: Request, res: Response) => {
 
   if (!walletAddress) {
     res.status(400).json({ message: 'Wallet address is required.' });
+    return;
   }
 
   try {
@@ -33,23 +34,30 @@ router.post('/login', async (req: Request, res: Response) => {
 });
 
 router.post('/register', async (req, res) => {
-  const { walletAddress, email } = req.body;
-
+  const { walletAddress, email, nickname } = req.body;
+ 
   if (!walletAddress || !email) {
     res.status(400).json({ message: 'Wallet address and email are required' });
+    return;
+  }
+
+  if (typeof walletAddress !== 'string' || typeof email !== 'string' || walletAddress.trim() === '' || email.trim() === '') {
+    res.status(400).json({ message: 'Wallet address and email must be non-empty strings' });
+    return;
   }
 
   const userRepository = AppDataSource.getRepository(User);
 
   try {
-   
     const existingUser = await userRepository.findOne({ where: { walletAddress } });
     if (existingUser) {
       res.status(400).json({ message: 'User already exists' });
+      return;
     }
 
+    const finalNickname = nickname || "undefined";
 
-    const newUser = userRepository.create({ walletAddress, email });
+    const newUser = userRepository.create({ walletAddress, email, nickname: finalNickname });
     await userRepository.save(newUser);
 
     res.status(201).json({ message: 'User registered successfully', user: newUser });
@@ -58,4 +66,5 @@ router.post('/register', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
 export default router;

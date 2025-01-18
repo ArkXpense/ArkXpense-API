@@ -12,6 +12,9 @@ export class User {
   @Column({ nullable: false })
   email!: string;
 
+  @Column({ nullable: true })
+  nickname!: string;
+
   @ManyToMany(() => Group, (group) => group.users)
   groups!: Group[];
 }
