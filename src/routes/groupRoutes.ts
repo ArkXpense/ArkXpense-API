@@ -2,15 +2,19 @@ import { Router } from 'express';
 import { AppDataSource } from '../database';
 import { Group } from '../entities/Group';
 import { User } from '../entities/User';
-import { Expense } from '../entities/Expense';
 import { In } from 'typeorm';
 
 const router = Router();
 
 router.get('/', async (_req, res) => {
   const groupRepository = AppDataSource.getRepository(Group);
-  const groups = await groupRepository.find({ relations: ['users', 'expenses'] });
-  res.json(groups);
+  try {
+    const groups = await groupRepository.find({ relations: ['users', 'expenses'] });
+    res.json(groups);
+  } catch (error) {
+    console.error('Error fetching groups:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 router.post('/create', async (req, res) => {

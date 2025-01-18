@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, OneToMany } from 'typeorm';
 import { Group } from './Group';
+import { Expense } from './Expense';
 
 @Entity('users')
 export class User {
@@ -15,6 +16,9 @@ export class User {
   @Column({ nullable: true })
   nickname!: string;
 
-  @ManyToMany(() => Group, (group) => group.users)
+  @ManyToMany(() => Group, (group) => group.users) 
   groups!: Group[];
+
+  @OneToMany(() => Expense, (expense) => expense.payer) 
+  expenses!: Expense[];
 }
