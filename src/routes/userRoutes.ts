@@ -15,7 +15,7 @@ router.get('/', async (_req, res) => {
   }
 });
 
-router.get('/:walletAddress', async (req, res) => {
+router.get('/wallet/:walletAddress', async (req, res) => {
   const walletAddress = req.params.walletAddress;
 
   if (!walletAddress || typeof walletAddress !== 'string' || walletAddress.trim() === '') {
@@ -43,7 +43,7 @@ router.get('/:walletAddress', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/id/:id', async (req, res) => {
   const userId = parseInt(req.params.id, 10); 
 
   if (isNaN(userId)) {
