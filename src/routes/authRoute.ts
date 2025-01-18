@@ -32,4 +32,30 @@ router.post('/login', async (req: Request, res: Response) => {
   }
 });
 
+router.post('/register', async (req, res) => {
+  const { walletAddress, email } = req.body;
+
+  if (!walletAddress || !email) {
+    res.status(400).json({ message: 'Wallet address and email are required' });
+  }
+
+  const userRepository = AppDataSource.getRepository(User);
+
+  try {
+   
+    const existingUser = await userRepository.findOne({ where: { walletAddress } });
+    if (existingUser) {
+      res.status(400).json({ message: 'User already exists' });
+    }
+
+
+    const newUser = userRepository.create({ walletAddress, email });
+    await userRepository.save(newUser);
+
+    res.status(201).json({ message: 'User registered successfully', user: newUser });
+  } catch (error) {
+    console.error('Error registering user:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 export default router;
