@@ -8,7 +8,7 @@ const router = Router();
 router.get('/', async (_req, res) => {
   const expenseRepository = AppDataSource.getRepository(Expense);
   try {
-    const expenses = await expenseRepository.find({ relations: ['group', 'payer'] });
+    const expenses = await expenseRepository.find({ relations: ['group', 'user'] });
     res.json(expenses);
   } catch (error) {
     console.error('Error fetching expenses:', error);
@@ -17,10 +17,10 @@ router.get('/', async (_req, res) => {
 });
 
 router.post('/create', async (req, res) => {
-  const { description, amount, groupId, payerId } = req.body;
+  const { description, amount, groupId, userId } = req.body;
 
-  if (!description || !amount || !groupId || !payerId) {
-    res.status(400).json({ message: 'Description, amount, groupId, and payerId are required' });
+  if (!description || !amount || !groupId || !userId) {
+    res.status(400).json({ message: 'Description, amount, groupId, and userId are required' });
     return;
   }
 
@@ -35,13 +35,13 @@ router.post('/create', async (req, res) => {
       return;
     }
 
-    const payer = await userRepository.findOne({ where: { id: payerId } });
-    if (!payer) {
-      res.status(404).json({ message: 'Payer not found' });
+    const user = await userRepository.findOne({ where: { id: userId } });
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
       return;
     }
 
-    const newExpense = expenseRepository.create({ description, amount, group, payer });
+    const newExpense = expenseRepository.create({ description, amount, group, user });
     await expenseRepository.save(newExpense);
 
     res.status(201).json({ message: 'Expense added successfully', expense: newExpense });
