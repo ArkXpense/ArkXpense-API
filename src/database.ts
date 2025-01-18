@@ -3,6 +3,7 @@ import { DataSource } from 'typeorm';
 import { User } from './entities/User';
 import { Group } from './entities/Group';
 import { Expense } from './entities/Expense';
+import { Income } from './entities/Income';
 import dotenv from "dotenv"
 
 dotenv.config()
@@ -14,5 +15,5 @@ export const AppDataSource = new DataSource({
   synchronize: true, // Cambia a false en producción
   logging: true,
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
-  entities: [User, Group, Expense],
+  entities: [User, Group, Expense,Income],
 });

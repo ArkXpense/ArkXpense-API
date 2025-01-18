@@ -15,5 +15,5 @@ export class Expense extends BaseEntity {
   group!: Group; 
 
   @ManyToOne(() => User, (user) => user.expenses) 
-  payer!: User; 
+  user!: User; 
 }

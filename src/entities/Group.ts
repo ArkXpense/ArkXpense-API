@@ -1,5 +1,5 @@
 import { Entity, Column, ManyToMany, OneToMany, JoinTable } from 'typeorm';
-import { BaseEntity } from './BaseEntity'; 
+import { BaseEntity } from './BaseEntity';
 import { User } from './User';
 import { Expense } from './Expense';
 
@@ -14,4 +14,7 @@ export class Group extends BaseEntity {
 
   @OneToMany(() => Expense, (expense) => expense.group)
   expenses!: Expense[];
+
+  //@OneToMany(() => Income, (income) => income.group)
+  //incomes!: Income[];
 }
