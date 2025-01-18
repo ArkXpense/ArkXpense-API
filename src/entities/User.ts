@@ -9,6 +9,9 @@ export class User {
   @Column({ unique: true })
   walletAddress!: string;
 
+  @Column({ nullable: false })
+  email!: string;
+
   @ManyToMany(() => Group, (group) => group.users)
   groups!: Group[];
 }
