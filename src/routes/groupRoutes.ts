@@ -46,5 +46,55 @@ router.post('/create', async (req, res) => {
   }
 });
 
+router.post('/:groupId/add-user', async (req, res) => {
+  const groupId = parseInt(req.params.groupId, 10);
+  const { userId } = req.body;
+
+  if (isNaN(groupId)) {
+    res.status(400).json({ message: 'Invalid groupId' });
+    return;
+  }
+
+  if (!userId) {
+    res.status(400).json({ message: 'UserId is required' });
+    return;
+  }
+
+  const groupRepository = AppDataSource.getRepository(Group);
+  const userRepository = AppDataSource.getRepository(User);
+
+  try {
+    const group = await groupRepository.findOne({
+      where: { id: groupId },
+      relations: ['users'],
+    });
+
+    if (!group) {
+      res.status(404).json({ message: 'Group not found' });
+      return;
+    }
+
+    const user = await userRepository.findOne({ where: { id: userId } });
+
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    if (group.users.some((existingUser) => existingUser.id === user.id)) {
+      res.status(400).json({ message: 'User is already in the group' });
+      return;
+    }
+
+    group.users.push(user);
+    await groupRepository.save(group);
+
+    res.status(200).json({ message: 'User added to the group successfully', group });
+  } catch (error) {
+    console.error('Error adding user to group:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 export default router;
