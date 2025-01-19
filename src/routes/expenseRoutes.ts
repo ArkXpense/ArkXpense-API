@@ -16,7 +16,7 @@ router.get('/', async (_req, res) => {
   }
 });
 
-router.post('/create', async (req, res) => {
+router.post('/generate', async (req, res) => {
   const { description, amount, groupId, userId } = req.body;
 
   if (!description || !amount || !groupId || !userId) {

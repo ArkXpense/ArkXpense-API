@@ -7,7 +7,7 @@ const router = Router();
 router.get('/', async (_req, res) => {
   const userRepository = AppDataSource.getRepository(User);
   try {
-    const users = await userRepository.find({ relations: ['groups','expenses'] });
+    const users = await userRepository.find({ relations: ['groups','expenses','incomes'] });
     res.json(users);
   } catch (error) {
     console.error('Error fetching users:', error);
@@ -32,7 +32,7 @@ router.get('/wallet/:walletAddress', async (req, res) => {
     });
 
     if (!user) {
-     res.status(404).json({ message: 'User not found' });
+     res.status(400).json({ message: 'User not found' });
      return;
     }
 
