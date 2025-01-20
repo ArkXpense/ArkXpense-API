@@ -338,4 +338,10 @@ router.delete('/:groupId/removeGroup/:expenseId', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+
+import { optimizeGroupTransactions } from '../controllers/transactionController';
+// Endpoint  for the transactions algorithm
+router.get('/:groupId/optimize-tx', optimizeGroupTransactions);
+
 export default router;
