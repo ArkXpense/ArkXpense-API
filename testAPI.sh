@@ -62,14 +62,14 @@ test_route "GET" "/users/id/1" "" 200 "Get user with valid id "
 test_route "GET" "/users/id/999" "" 404 "Get user with non-existent ID"
 
 test_route "GET" "/incomes" "" 200 "Get all incomes"
-test_route "POST" "/incomes/generate" '{"userId": 1, "amount": 100, "description": "Salary"}' 201 "Generate income"
-test_route "POST" "/incomes/generate" '{"userId": 999, "amount": 100, "description": "Salary"}' 404 "Generate income for non-existent user"
-test_route "POST" "/incomes/generate" '{"amount": 100, "description": "Salary"}' 400 "Generate income with missing userId"
+test_route "POST" "/incomes/" '{"userId": 1, "amount": 100, "description": "Salary"}' 201 "Generate income"
+test_route "POST" "/incomes/" '{"userId": 999, "amount": 100, "description": "Salary"}' 404 "Generate income for non-existent user"
+test_route "POST" "/incomes/" '{"amount": 100, "description": "Salary"}' 400 "Generate income with missing userId"
 
 test_route "GET" "/groups" "" 200 "Get all groups"
-test_route "POST" "/groups/create" '{"name": "New Group", "userIds": [1]}' 201 "Create group"
-test_route "POST" "/groups/create" '{"name": "New Group", "userIds": [999]}' 400 "Create group with non-existent user"
-test_route "POST" "/groups/create" '{"name": "New Group"}' 400 "Create group with missing userIds"
+test_route "POST" "/groups/" '{"name": "New Group", "userIds": [1]}' 201 "Create group"
+test_route "POST" "/groups/" '{"name": "New Group", "userIds": [999]}' 400 "Create group with non-existent user"
+test_route "POST" "/groups/" '{"name": "New Group"}' 400 "Create group with missing userIds"
 
 test_route "POST" "/auth/login" '{"walletAddress": "0xUserWalletAddress1"}' 200 "User login"
 test_route "POST" "/auth/login" '{"walletAddress": "0xInvalidWallet"}' 400 "Login with non-existent wallet"
@@ -79,10 +79,12 @@ test_route "POST" "/auth/register" '{"walletAddress": "", "email": "user1@exampl
 test_route "POST" "/auth/register" '{"walletAddress": "0xUserWalletAddress2", "email": ""}' 400 "Register with empty email"
 
 test_route "GET" "/expenses" "" 200 "Get all expenses"
-test_route "POST" "/expenses/generate" '{"description": "Groceries", "amount": 50, "groupId": 1, "userId": 1}' 201 "Generate expense"
-test_route "POST" "/expenses/generate" '{"description": "Groceries", "amount": 50, "groupId": 999, "userId": 1}' 404 "Generate expense for non-existent group"
-test_route "POST" "/expenses/generate" '{"description": "Groceries", "amount": 50, "groupId": 1, "userId": 999}' 404 "Generate expense for non-existent user"
-test_route "POST" "/expenses/generate" '{"amount": 50, "groupId": 1, "userId": 1}' 400 "Generate expense with missing description"
+test_route "POST" "/expenses" '{"description": "Groceries", "amount": 50, "groupId": 1, "userId": 1}' 201 "Generate expense"
+test_route "POST" "/expenses" '{"description": "Groceries", "amount": 50, "groupId": 999, "userId": 1}' 404 "Generate expense for non-existent group"
+test_route "POST" "/expenses" '{"description": "Groceries", "amount": 50, "groupId": 1, "userId": 999}' 404 "Generate expense for non-existent user"
+test_route "POST" "/expenses" '{"amount": 50, "groupId": 1, "userId": 1}' 400 "Generate expense with missing description"
 
+
+test_route "GET" "/groups/3/optimize-tx" "" 200 "Get optimized transactions for group 3"
 print_message "Testing completed."
 echo -e "\n\033[1;32mResults logged to $LOG_FILE\033[0m"
