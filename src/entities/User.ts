@@ -25,4 +25,7 @@ export class User {
 
   @OneToMany(() => Income, (income) => income.receiver) 
   incomes!: Income[]; 
+
+  @OneToMany(() => Expense, (expense) => expense.guarantor)
+  guaranteedExpenses!: Expense[];
 }
