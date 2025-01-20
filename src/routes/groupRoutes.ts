@@ -199,7 +199,7 @@ router.post('/:groupId/add-users', async (req, res) => {
 });
 
 //DELETE: Remove user from a group
-router.delete('/groups/:groupId/removeUser/:userId', async (req, res) => {
+router.delete('/:groupId/removeUser/:userId', async (req, res) => {
   const groupId = parseInt(req.params.groupId, 10);
   const userId = parseInt(req.params.userId, 10);
 
@@ -250,7 +250,7 @@ router.delete('/groups/:groupId/removeUser/:userId', async (req, res) => {
 });
 
 //ADD: Add an expense to a group
-router.post('/groups/:groupId/add-expense', async (req, res) => {
+router.post('/:groupId/add-expense', async (req, res) => {
   const groupId = parseInt(req.params.groupId, 10);
   const { description, amount, userId } = req.body;
 
@@ -297,7 +297,7 @@ router.post('/groups/:groupId/add-expense', async (req, res) => {
 });
 
 //DELETE: Remove an expense from a group
-router.delete('/groups/:groupId/removeGroup/:expenseId', async (req, res) => {
+router.delete('/:groupId/removeGroup/:expenseId', async (req, res) => {
   const groupId = parseInt(req.params.groupId, 10);
   const expenseId = parseInt(req.params.expenseId, 10);
 

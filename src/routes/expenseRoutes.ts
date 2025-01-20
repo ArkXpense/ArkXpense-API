@@ -6,7 +6,7 @@ import { User } from '../entities/User';
 const router = Router();
 
 // CREATE: Add a new expense
-router.post('/generate', async (req, res) => {
+router.post('/', async (req, res) => {
   const { description, amount, groupId, userId, guarantorId } = req.body;
 
   if (!description || !amount || !groupId || !userId || !guarantorId) {
@@ -130,7 +130,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // DELETE: Delete an expense
-router.delete('/expenses/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   const { id } = req.params;
   const expenseRepository = AppDataSource.getRepository(Expense);
 
