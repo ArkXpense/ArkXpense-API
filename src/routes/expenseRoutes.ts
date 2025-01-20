@@ -9,6 +9,7 @@ const router = Router();
 router.post('/', async (req, res) => {
   const { description, amount, groupId, userId, guarantorId } = req.body;
 
+
   if (!description || !amount || !groupId || !userId || !guarantorId) {
     res.status(400).json({ message: 'Description, amount, groupId, userId, and guarantorId are required' });
     return;
@@ -19,7 +20,12 @@ router.post('/', async (req, res) => {
   const userRepository = AppDataSource.getRepository(User);
 
   try {
-    const group = await groupRepository.findOne({ where: { id: groupId } });
+    
+    const group = await groupRepository.findOne({
+      where: { id: groupId },
+      relations: ['users'], 
+    });
+
     const user = await userRepository.findOne({ where: { id: userId } });
     const guarantor = await userRepository.findOne({ where: { id: guarantorId } });
 
@@ -28,15 +34,21 @@ router.post('/', async (req, res) => {
       return;
     }
 
+    const userInGroup = group.users.some((u) => u.id === userId);
+    const guarantorInGroup = group.users.some((u) => u.id === guarantorId);
+
+    if (!userInGroup || !guarantorInGroup) {
+      res.status(400).json({ message: 'User and guarantor must belong to the group' });
+      return;
+    }
+
     const newExpense = expenseRepository.create({ description, amount, group, user, guarantor });
     await expenseRepository.save(newExpense);
 
     res.status(201).json({ message: 'Expense added successfully', expense: newExpense });
-    return;
   } catch (error) {
     console.error('Error adding expense:', error);
     res.status(500).json({ message: 'Internal server error' });
-    return;
   }
 });
 
