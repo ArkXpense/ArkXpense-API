@@ -1,5 +1,5 @@
 interface Balance {
-    user: string;
+    walletAddress: string;
     balance: number;
   }
   
@@ -9,7 +9,7 @@ interface Balance {
     }
   
     for (const balance of balances) {
-      if (typeof balance.user !== 'string' || typeof balance.balance !== 'number') {
+      if (typeof balance.walletAddress !== 'string' || typeof balance.balance !== 'number') {
         return 'Each balance must have a "user" (string) and "balance" (number).';
       }
     }
