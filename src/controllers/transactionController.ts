@@ -23,6 +23,6 @@ export const optimizeGroupTransactions = async (req: Request, res: Response): Pr
     res.status(200).json(transactions);
   } catch (error) {
     console.error('Error optimizing group transactions:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error: probably group no exist' });
   }
 };
